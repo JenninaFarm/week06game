@@ -36,6 +36,7 @@ public class MyGdxGame implements ApplicationListener {
 
 
 	private Player player;
+	private Enemy enemy;
 	private TiledMap tiledMap;
 	private TiledMapRenderer tiledMapRenderer;
 
@@ -54,6 +55,7 @@ public class MyGdxGame implements ApplicationListener {
 		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
 		player = new Player(new Texture("swimBeaver.png"));
+		//enemy = new Enemy(new Texture("polar.png"));
 
 		moveCamera();
 	}
