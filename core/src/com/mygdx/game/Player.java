@@ -24,7 +24,7 @@ public class Player extends Sprite {
     private float speedY = 150f;
     private float direction = 0;
 
-    //new commit 
+    //new commit
 
     public Player(Texture t) {
         super(new TextureRegion(t));
