@@ -72,8 +72,10 @@ public class Player extends Sprite {
 
         batch.draw(currentBeaverFrame, getX(), getY(), getWidth(), getHeight());
         if(alive) {
+            System.out.println(stateTime);
             currentBeaverFrame = beaverAnimation.getKeyFrame(stateTime, true);
         } else {
+            System.out.println(stateTime);
             currentBeaverFrame = drowningAnimation.getKeyFrame(stateTime, true);
         }
     }
@@ -84,9 +86,11 @@ public class Player extends Sprite {
 
     public void die() {
         Gdx.app.log("Log", "Player Dies");
-        alive = false;
-        stateTime = 0.0f;
-        speedX = 0.0f;
-        speedY = 0.0f;
+        if(alive) {
+            stateTime = 0.0f;
+            speedX = 0.0f;
+            speedY = 0.0f;
+            alive = false;
+        }
     }
 }
