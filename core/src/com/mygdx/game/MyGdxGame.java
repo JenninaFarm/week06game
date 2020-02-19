@@ -55,7 +55,7 @@ public class MyGdxGame implements ApplicationListener {
 		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
 		player = new Player(new Texture("swimBeaver.png"));
-		//enemy = new Enemy(new Texture("polar.png"));
+		enemy = new Enemy(new Texture("polar.png"));
 
 		moveCamera();
 	}
@@ -92,14 +92,18 @@ public class MyGdxGame implements ApplicationListener {
 
 		batch.begin();
 		player.draw(batch);
+		enemy.draw(batch);
+		movePlayer();
+
 		batch.end();
 
-		movePlayer();
 		checkCollectibleCollisions();
 		checkIcebergCollisions();
+		checkEnemyCollisions();
 
 		moveCamera();
 	}
+
 
 	private void clearScreen() {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -112,6 +116,10 @@ public class MyGdxGame implements ApplicationListener {
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
 			player.move(-1f);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+			player.shoot(batch);
+			Gdx.app.log("Log", "left pressed");
 		}
 	}
 
@@ -153,8 +161,13 @@ public class MyGdxGame implements ApplicationListener {
 		}
 	}
 
+	private void checkEnemyCollisions() {
+		if(player.getBoundingRectangle().overlaps(enemy.getBoundingRectangle())) {
+			player.die();
+		}
+	}
+
 	private void clearCollectible(float xCoord, float yCoord) {
-		Gdx.app.log("LOG", "in clearCollectibles");
 		int indexX = (int) xCoord / TILE_WIDTH;
 		int indexY = (int) yCoord / TILE_HEIGTH;
 

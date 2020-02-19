@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -23,6 +24,8 @@ public class Player extends Sprite {
     private float speedX = 60f;
     private float speedY = 150f;
     private float direction = 0;
+
+    private Sound gameOver;
 
     //new commit
 
@@ -72,10 +75,10 @@ public class Player extends Sprite {
 
         batch.draw(currentBeaverFrame, getX(), getY(), getWidth(), getHeight());
         if(alive) {
-            System.out.println(stateTime);
+            //System.out.println(stateTime);
             currentBeaverFrame = beaverAnimation.getKeyFrame(stateTime, true);
         } else {
-            System.out.println(stateTime);
+            //System.out.println(stateTime);
             currentBeaverFrame = drowningAnimation.getKeyFrame(stateTime, true);
         }
     }
@@ -91,6 +94,20 @@ public class Player extends Sprite {
             speedX = 0.0f;
             speedY = 0.0f;
             alive = false;
+            gameOver = Gdx.audio.newSound(Gdx.files.internal("gameOver.mp3"));
+            gameOver.play();
         }
+    }
+
+    public void shoot(SpriteBatch batch) {
+        Gdx.app.log("Log", "shoot called");
+        Bullet b = new Bullet(new Texture("fish.png"));
+        b.shoot(getX() + 10f, getY() + 10f, batch);
+
+        checkBulletCollisions();
+    }
+
+    private void checkBulletCollisions() {
+
     }
 }

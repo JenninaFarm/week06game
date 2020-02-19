@@ -23,12 +23,11 @@ public class Enemy extends Sprite {
 
     public Enemy(Texture t) {
         super(new TextureRegion(t));
-
-        setX(30);
-        setX(30);
-
+        setSize(getWidth()/3f, getHeight()/1.5f);
         //setX(MathUtils.random(840, 3600));
         //setY(MathUtils.random(1, 600));
+        setX(400);
+        setY(200);
 
         int dir = MathUtils.random(1, 2);
         if(dir == 1) {
@@ -48,7 +47,6 @@ public class Enemy extends Sprite {
         );
 
         TextureRegion [] polarArray = Utils.transformTo1D(polarRegion, FRAME_COL, FRAME_ROW);
-
         polarAnimation = new Animation(7/60, polarArray);
 
         currentPolarFrame = polarAnimation.getKeyFrame(stateTime, true);
@@ -59,8 +57,27 @@ public class Enemy extends Sprite {
 
         batch.draw(currentPolarFrame, getX(), getY(), getWidth(), getHeight());
 
+        //System.out.println(stateTime);
+        move();
+
         currentPolarFrame = polarAnimation.getKeyFrame(stateTime, true);
     }
 
+    private void move() {
+        setX(getX() - speedX * Gdx.graphics.getDeltaTime());
 
+        if(directionDown) {
+            if(getY() > 1) {
+                setY(getY() - speedY * Gdx.graphics.getDeltaTime());
+            } else if (getY() < 1) {
+                directionDown = false;
+            }
+        } else {
+            if(getY() < 620) {
+                setY(getY() + speedY * Gdx.graphics.getDeltaTime());
+            } else if(getY() >= 620) {
+                directionDown = true;
+            }
+        }
+    }
 }
